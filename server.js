@@ -51,36 +51,35 @@ app.get('/api/v1/people/:id', (request, response) => {
   })
 })
 
-app.post('/api/v1/people/:people_id/strengths/:id', (request, response) => {
-  const { name } = request.body
-
-  if (!name) {
-    return response
-      .status(422)
-      .send({ error: `Expected format: { name: <String> }. You're missing a name.`})
-  }
-
-  database('people').insert({name}, 'id')
+app.post('/api/v1/people/:people_id/strengths/:strengths_id', (request, response) => {
+  console.log('body: ', request.body)
+  //if (!people_id || !strength_id) {
+    //return response
+      //.status(422)
+      //.send({ error: `You're missing a people_id or strengths_id.`})
+  //}
+  const { strength_id, people_id } = request.body
+  database('people_strengths').insert({strength_id, people_id}, 'id')
   .then(people => {
-    response.status(201).json({ id: request.body[0], name })
+    response.status(201).json({ id: people[0] })
   })
   .catch(error => {
     response.status(500).json({error})
   })
 })
 
-app.post('/api/v1/people/:id', (request, response) => {
-  const { strength } = request.body
+app.post('/api/v1/people/', (request, response) => {
+  const { name } = request.body
 
-  if (!strength) {
+  if (!name) {
     return response
       .status(422)
-      .send({ error: `Expected format: { strength: <String> }. You're missing a strength.`})
+      .send({ error: `You're missing an name.`})
   }
 
-  database('people').insert({strength}, 'id')
+  database('people').insert({name}, 'id')
   .then(people => {
-    response.status(201).json({ id: request.body[0], name, strength })
+    response.status(201).json({ id: request.body[0], name })
   })
   .catch(error => {
     response.status(500).json({error})
