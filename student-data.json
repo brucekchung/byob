@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Jeff Bender",
+    "theme1": "Connectedness",
+    "theme2": "Strategic",
+    "theme3": "Empathy",
+    "theme4": "Ideation",
+    "theme5": "Futuristic"
+  },
+  {
+    "name": "Bruce Chung",
+    "theme1": "Strategic",
+    "theme2": "Connectedness",
+    "theme3": "Input",
+    "theme4": "Adaptability",
+    "theme5": "Arranger"
+  },
+  {
+    "name": "Bob Dylan",
+    "theme1": "Woo",
+    "theme2": "Includer",
+    "theme3": "Consistency",
+    "theme4": "Activator",
+    "theme5": "Focus"
+  },
+  {
+    "name": "Taylor Swift",
+    "theme1": "Self-Assurance",
+    "theme2": "Discipline",
+    "theme3": "Relator",
+    "theme4": "Belief",
+    "theme5": "Maximizer"
+  },
+  {
+    "name": "Kanye West",
+    "theme1": "Woo",
+    "theme2": "Competition",
+    "theme3": "Harmony",
+    "theme4": "Belief",
+    "theme5": "Achiever"
+  }
+]

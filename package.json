@@ -1,7 +1,7 @@
 {
   "name": "byob",
   "version": "1.0.0",
-  "description": "",
+  "description": "Optimize pairings and team collaboration through StrengthsFinder and theme dynamics.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -9,10 +9,10 @@ nightmare
     const themeHeaders = [...document.querySelectorAll('ol.c-theme-list li.c-theme-list__item')];
 
     const themeData = themeHeaders.map(theme => {      
-      let themeTitle = theme.querySelector('.c-theme-list__theme-header').innerText;
+      let strengthsTitle = theme.querySelector('.c-theme-list__theme-header').innerText;
       let description = theme.querySelector('.c-theme-list__item p').innerText;
 
-      return { themeTitle, description }
+      return { strengthsTitle, description }
     })
 
     return themeData;
