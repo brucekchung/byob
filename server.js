@@ -59,7 +59,7 @@ app.post('/api/v1/people/:people_id/strengths/:strengths_id', (request, response
       //.send({ error: `You're missing a people_id or strengths_id.`})
   //}
   const { strength_id, people_id } = request.body
-  database('people_strengths').insert({strength_id, people_id}, 'id')
+  database('people_strengths').insert({strength_id: 1, people_id: 1}, 'id')
   .then(people => {
     response.status(201).json({ id: people[0] })
   })
