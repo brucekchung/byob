@@ -4,7 +4,8 @@
   "description": "Optimize pairings and team collaboration through StrengthsFinder and theme dynamics.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "./node_modules/eslint/bin/eslint.js ./src/*/*/*.js",
   },
   "author": "",
   "license": "ISC",
