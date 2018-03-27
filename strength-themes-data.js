@@ -1,4 +1,4 @@
-const data = [
+module.exports = [
   {
     "description": "People who are especially talented in the Analytical theme search for reasons and causes. They have the ability to think about all the factors that might affect a situation.",
     "strengthsTitle": "Analytical",
@@ -136,4 +136,3 @@ const data = [
     "strengthsTitle": "Relator",
   }
 ]
-module.exports = data
