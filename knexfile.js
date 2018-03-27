@@ -8,12 +8,3 @@ module.exports = {
     useNullAsDefault: true
   }
 }
-
-
-
-
-
-
-
-
-
