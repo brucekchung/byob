@@ -8,10 +8,8 @@ const database = require('knex')(configuration)
 
 chai.use(chaiHttp)
 
-describe('Client Routes', () => {
+describe('API Routes', () => {
+  it('should have a GET route for people', () => {
 
-})
-
-descirbe('API Routes', () => {
-
+  })
 })
