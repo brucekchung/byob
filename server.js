@@ -51,15 +51,11 @@ app.get('/api/v1/people/:id', (request, response) => {
   })
 })
 
-app.post('/api/v1/people/:people_id/strengths/:strengths_id', (request, response) => {
-  console.log('body: ', request.body)
-  //if (!people_id || !strength_id) {
-    //return response
-      //.status(422)
-      //.send({ error: `You're missing a people_id or strengths_id.`})
-  //}
-  const { strength_id, people_id } = request.body
-  database('people_strengths').insert({strength_id: 1, people_id: 1}, 'id')
+app.post('/api/v1/people/:people_id/strengths/', async (request, response) => {
+  const { people_id } = request.body
+  const strengths_id = await database('strengths').where('strengthsTitle', request.body.strength)
+
+  database('people_strengths').insert({strengths_id: strengths_id[0].id, people_id}, 'id')
   .then(people => {
     response.status(201).json({ id: people[0] })
   })
