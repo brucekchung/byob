@@ -10,6 +10,6 @@ notifications:
 deploy:
   provider: heroku
   api_key:
-    secure: POZEVZ7mNwqAo1Ts6XjUVoQsQFdVPYus2d0VaYI1K...itGoesOnForAWhile
+    secure: //put in api key 
   app: byob 
   skip_cleanup: true

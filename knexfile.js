@@ -1,7 +1,18 @@
 module.exports = {
+  test: {
+    client: 'pg',
+    connection: 'postgres://localhost/byob_test',
+    migrations: {
+      directory: './db/migrations'
+    },
+    seeds: {
+      directory: './db/seeds/test'
+    },
+    useNullAsDefault: true
+  },
   development: {
     client: 'pg',
-    connection: 'postgress://localhost/byob',
+    connection: 'postgres://localhost/byob',
     migrations: {
       directory: './db/migrations'
     },
@@ -18,17 +29,6 @@ module.exports = {
     },
     seeds: {
       directory: './db/seeds/dev'
-    },
-    useNullAsDefault: true
-  },
-  test: {
-    client: 'pg',
-    connection: 'postgress://localhost/byob_test',
-    migrations: {
-      directory: './db/migrations'
-    },
-    seeds: {
-      directory: './db/seeds/test'
     },
     useNullAsDefault: true
   }
