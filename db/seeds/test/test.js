@@ -7,4 +7,7 @@ exports.seed = (knex, Promise) => {
     .then(() => { 
       return knex('strengths').insert(strengthData)
     })
+    .then(() => {
+      return knex('people').insert({name: 'Bruce'})
+    })
 }

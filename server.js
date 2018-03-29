@@ -37,7 +37,7 @@ app.get('/api/v1/strengths/:id', (request, response) => {
     response.status(200).json(strengths)
   })
   .catch(error => {
-    response.status(500).json({error})
+    response.status(500).json(`Invalid Strength ID: ${error}`)
   })
 })
 
@@ -58,7 +58,7 @@ app.get('/api/v1/people/:id', (request, response) => {
     response.status(200).json(people)
   })
   .catch(error => {
-    response.status(500).json({error})
+    response.status(500).json(`Invalid People ID: ${error}`)
   })
 })
 
@@ -77,7 +77,7 @@ app.post('/api/v1/people/:people_id/strengths/', async (request, response) => {
 
 app.post('/api/v1/people/', (request, response) => {
   const { name } = request.body
-
+  
   if (!name) {
     return response
       .status(422)
@@ -85,8 +85,8 @@ app.post('/api/v1/people/', (request, response) => {
   }
 
   database('people').insert({name}, 'id')
-  .then(people => {
-    response.status(201).json({ id: request.body[0], name })
+  .then(people => {    
+    response.status(201).json({ id: people[0], name })
   })
   .catch(error => {
     response.status(500).json({error})
