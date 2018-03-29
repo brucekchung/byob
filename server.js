@@ -116,4 +116,32 @@ app.listen(app.get('port'), () => {
   console.log(`App is running on ${app.get('port')}`)
 })
 
+app.delete('/api/v1/people/:id', checkAuth, (request, response) => {
+  database('people').where('id', request.params.id)
+   .select()
+   .del()
+    .then(people => {
+      if(!people.length) {
+        response.status(202).send('Deleted')
+      } else {
+        response.status(404).send('Error Deleting')
+      }
+    })
+    .catch((err) => response.status(500).json({err}))
+})
+
+app.delete('/api/v1/strengths/:id', checkAuth, (request, response) => {
+  database('people_strengths').where('id', request.params.id)
+   .select()
+   .del()
+    .then(people => {
+      if(!people.length) {
+        response.status(202).send('Deleted')
+      } else {
+        response.status(404).send('Error Deleting')
+      }
+    })
+    .catch((err) => response.status(500).json({err}))
+})
+
 module.exports = app
