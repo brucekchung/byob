@@ -44,7 +44,7 @@ describe('API Routes', () => {
 
   it('should have a GET route for strengths by id', () => {
     return chai.request(server)
-    .get('/api/v1/strengths/213')
+    .get('/api/v1/strengths/2')
       .then(response => {
         // console.log('test strengthid res: ', response)
         response.should.have.status(200);
