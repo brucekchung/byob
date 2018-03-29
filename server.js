@@ -5,9 +5,20 @@ const bodyParser = require('body-parser')
 const environment = process.env.NODE_ENV || 'development'
 const configuration = require('./knexfile')[environment]
 const database = require('knex')(configuration)
+const jwt = require('jsonwebtoken')
 
 app.set('port', process.env.PORT || 3000)
+app.set('secretKey', 'whatever')
 app.use(bodyParser.json())
+app.use(express.static('public'))
+
+
+app.post('/authenticate', (req, res) => {
+  const payload = req.body
+  const token = jwt.sign({payload}, app.get('secretKey'))
+
+  return res.status(201).json(token)
+})
 
 app.get('/api/v1/strengths', (request, response) => {
   database('strengths').select()
