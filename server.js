@@ -12,6 +12,25 @@ app.set('secretKey', 'whatever')
 app.use(bodyParser.json())
 app.use(express.static('public'))
 
+function checkAuth(req, res, next) {
+  const { token } = req.body
+
+  if(!token) {
+    return res.status(403).send('Token Invalid')
+  }
+  try {
+    const decoded = jwt.verify(token, app.get('secretKey'))
+    const email = decoded.payload.email
+
+    if(email.includes('@turing.io')) {
+      next()
+    } else {
+      return res.status(403).send('Not Authorized')
+    }
+  } catch (error) {
+    return res.status(403).send('Error')
+  }
+}
 
 app.post('/authenticate', (req, res) => {
   const payload = req.body
@@ -62,7 +81,7 @@ app.get('/api/v1/people/:id', (request, response) => {
   })
 })
 
-app.post('/api/v1/people/:people_id/strengths/', async (request, response) => {
+app.post('/api/v1/people/:people_id/strengths/', checkAuth, async (request, response) => {
   const { people_id } = request.body
   const strengths_id = await database('strengths').where('strengthsTitle', request.body.strength)
 
@@ -75,7 +94,7 @@ app.post('/api/v1/people/:people_id/strengths/', async (request, response) => {
   })
 })
 
-app.post('/api/v1/people/', (request, response) => {
+app.post('/api/v1/people/', checkAuth, (request, response) => {
   const { name } = request.body
   
   if (!name) {
@@ -95,6 +114,62 @@ app.post('/api/v1/people/', (request, response) => {
 
 app.listen(app.get('port'), () => {
   console.log(`App is running on ${app.get('port')}`)
+})
+
+app.delete('/api/v1/people/:id', checkAuth, (request, response) => {
+  database('people').where('id', request.params.id)
+   .select()
+   .del()
+    .then(people => {
+      if(!people.length) {
+        response.status(202).send('Deleted')
+      } else {
+        response.status(404).send('Error Deleting')
+      }
+    })
+    .catch((err) => response.status(500).json({err}))
+})
+
+app.delete('/api/v1/strengths/:id', checkAuth, (request, response) => {
+  database('people_strengths').where('id', request.params.id)
+   .select()
+   .del()
+    .then(people => {
+      if(!people.length) {
+        response.status(202).send('Deleted')
+      } else {
+        response.status(404).send('Error Deleting')
+      }
+    })
+    .catch((err) => response.status(500).json({err}))
+})
+
+app.patch('/api/v1/people/:id', checkAuth, (request, response) => {
+  database('people').where('id', request.params.id)
+    .update({
+      name: request.body.name
+    })
+    .then(stuff => {
+      if(stuff) {
+        response.status(202).send('Edited')
+      } else {
+        response.status(404).send('Failed to Edit')
+      }
+    })
+})
+
+app.patch('/api/v1/strengths/:id', checkAuth, (request, response) => {
+  database('strengths').where('id', request.params.id)
+    .update({
+      name: request.body.strengthsTitle
+    })
+    .then(stuff => {
+      if(stuff) {
+        response.status(202).send('Edited')
+      } else {
+        response.status(404).send('Failed to Edit')
+      }
+    })
 })
 
 module.exports = app
