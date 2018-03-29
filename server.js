@@ -159,9 +159,9 @@ app.patch('/api/v1/people/:id', checkAuth, (request, response) => {
 })
 
 app.patch('/api/v1/strengths/:id', checkAuth, (request, response) => {
-  database('people').where('id', request.params.id)
+  database('strengths').where('id', request.params.id)
     .update({
-      name: request.body.name
+      name: request.body.strengthsTitle
     })
     .then(stuff => {
       if(stuff) {
