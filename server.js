@@ -144,4 +144,32 @@ app.delete('/api/v1/strengths/:id', checkAuth, (request, response) => {
     .catch((err) => response.status(500).json({err}))
 })
 
+app.patch('/api/v1/people/:id', checkAuth, (request, response) => {
+  database('people').where('id', request.params.id)
+    .update({
+      name: request.body.name
+    })
+    .then(stuff => {
+      if(stuff) {
+        response.status(202).send('Edited')
+      } else {
+        response.status(404).send('Failed to Edit')
+      }
+    })
+})
+
+app.patch('/api/v1/strengths/:id', checkAuth, (request, response) => {
+  database('people').where('id', request.params.id)
+    .update({
+      name: request.body.name
+    })
+    .then(stuff => {
+      if(stuff) {
+        response.status(202).send('Edited')
+      } else {
+        response.status(404).send('Failed to Edit')
+      }
+    })
+})
+
 module.exports = app
