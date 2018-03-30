@@ -35,6 +35,7 @@ function checkAuth(req, res, next) {
 app.post('/authenticate', (req, res) => {
   const payload = req.body
   const token = jwt.sign({payload}, app.get('secretKey'))
+    .catch((err) => response.status(500).json({err}))
 
   return res.status(201).json(token)
 })
@@ -152,6 +153,7 @@ app.patch('/api/v1/people/:id', checkAuth, (request, response) => {
         response.status(404).send('Failed to Edit')
       }
     })
+    .catch((err) => response.status(500).json({err}))
 })
 
 app.patch('/api/v1/strengths/:id', checkAuth, (request, response) => {
@@ -166,6 +168,7 @@ app.patch('/api/v1/strengths/:id', checkAuth, (request, response) => {
         response.status(404).send('Failed to Edit')
       }
     })
+    .catch((err) => response.status(500).json({err}))
 })
 
 app.listen(app.get('port'), () => {
