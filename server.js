@@ -81,26 +81,13 @@ app.get('/api/v1/people/:id', (request, response) => {
   })
 })
 
-app.post('/api/v1/people/:people_id/strengths/', checkAuth, async (request, response) => {
-  const { people_id } = request.body
-  const strengths_id = await database('strengths').where('strengthsTitle', request.body.strength)
-
-  database('people_strengths').insert({strengths_id: strengths_id[0].id, people_id}, 'id')
-  .then(people => {
-    response.status(201).json({ id: people[0] })
-  })
-  .catch(error => {
-    response.status(500).json({error})
-  })
-})
-
 app.post('/api/v1/people/', checkAuth, (request, response) => {
   const { name } = request.body
   
   if (!name) {
     return response
       .status(422)
-      .send({ error: `You're missing an name.`})
+      .json('Name Missing!')
   }
 
   database('people').insert({name}, 'id')
@@ -112,8 +99,17 @@ app.post('/api/v1/people/', checkAuth, (request, response) => {
   })
 })
 
-app.listen(app.get('port'), () => {
-  console.log(`App is running on ${app.get('port')}`)
+app.post('/api/v1/people/:people_id/strengths/', checkAuth, async (request, response) => {
+  const { people_id } = request.body
+  const strengths_id = await database('strengths').where('strengthsTitle', request.body.strength)
+
+  database('people_strengths').insert({strengths_id: strengths_id[0].id, people_id}, 'id')
+  .then(people => {
+    response.status(201).json({ id: people[0] })
+  })
+  .catch(error => {
+    response.status(500).json({error})
+  })
 })
 
 app.delete('/api/v1/people/:id', checkAuth, (request, response) => {
@@ -161,7 +157,7 @@ app.patch('/api/v1/people/:id', checkAuth, (request, response) => {
 app.patch('/api/v1/strengths/:id', checkAuth, (request, response) => {
   database('strengths').where('id', request.params.id)
     .update({
-      name: request.body.strengthsTitle
+      strengthsTitle: request.body.strengthsTitle
     })
     .then(stuff => {
       if(stuff) {
@@ -170,6 +166,10 @@ app.patch('/api/v1/strengths/:id', checkAuth, (request, response) => {
         response.status(404).send('Failed to Edit')
       }
     })
+})
+
+app.listen(app.get('port'), () => {
+  console.log(`App is running on ${app.get('port')}`)
 })
 
 module.exports = app
