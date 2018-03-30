@@ -1,4 +1,4 @@
-process.env.NODE_ENV = 'test';
+process.env.NODE_ENV = 'test'
 
 const chai = require('chai')
 const should = chai.should()
@@ -45,29 +45,29 @@ describe('API Routes', () => {
     return chai.request(server)
     .get('/api/v1/strengths/2')
       .then(response => {
-        response.should.have.status(200);
-        response.should.be.json;
-        response.body[0].should.have.property('id');
-        response.body[0].id.should.be.a('number');
+        response.should.have.status(200)
+        response.should.be.json
+        response.body[0].should.have.property('id')
+        response.body[0].id.should.be.a('number')
 
-        response.body[0].should.have.property('strengthsTitle');
-        response.body[0].strengthsTitle.should.equal('Context');
+        response.body[0].should.have.property('strengthsTitle')
+        response.body[0].strengthsTitle.should.equal('Context')
 
-        response.body[0].should.have.property('description');
-        response.body[0].description.should.equal('People who are especially talented in the Context theme enjoy thinking about the past. They understand the present by researching its history.');
+        response.body[0].should.have.property('description')
+        response.body[0].description.should.equal('People who are especially talented in the Context theme enjoy thinking about the past. They understand the present by researching its history.')
 
-        response.body[0].should.have.property('created_at');
-        response.body[0].created_at.should.be.a('string');
+        response.body[0].should.have.property('created_at')
+        response.body[0].created_at.should.be.a('string')
         
-        response.body[0].should.have.property('updated_at');
-        response.body[0].updated_at.should.be.a('string');
+        response.body[0].should.have.property('updated_at')
+        response.body[0].updated_at.should.be.a('string')
       })
       .catch(error => {
-        throw error;
+        throw error
       })
     })
 
-  it('should NOT GET route for strength with invalid id', () => {
+  it('should NOT GET route for STRENGTH with INVALID ID', () => {
     return chai.request(server)
     .get('/api/v1/strengths/2788347589')
       .then(response => {
@@ -115,7 +115,7 @@ describe('API Routes', () => {
       })
     })
 
-  it('should NOT GET route for people with invalid id', () => {
+  it('should NOT GET route for PEOPLE with INVALID ID', () => {
     return chai.request(server)
     .get('/api/v1/people/2234324242342342')
       .then(response => {
@@ -130,16 +130,14 @@ describe('API Routes', () => {
   })
 
   describe('POST /api/v1/people', () => {
-    it.skip('Should add a new person', () => {
+    it('Should add a new person', () => {
       return chai.request(server)
       .post('/api/v1/people')
       .send({
         name: 'robbie',
-        email: 'robbie@turing.io',
         token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5hbWUiOiJyb2JiaWUiLCJlbWFpbCI6InJvYmJpZUB0dXJpbmcuaW8ifSwiaWF0IjoxNTIyMzU4NzQxfQ.PQ9hRIuHopHZitAxhTnLI0D3TINUlwDoc3HjdDufcqM'
       })
       .then(response => {
-        console.log(response.body)
         response.should.have.status(201)
         response.should.be.json
         response.body.should.be.a('object')
@@ -150,12 +148,153 @@ describe('API Routes', () => {
         
         response.body.should.have.property('name')
         response.body.name.should.equal('robbie')
+      })
+      .catch(error => {
+        throw error
+      })
+    })
 
-        response.body.should.have.property('email')
-        response.body.title.should.equal('robbie@turing.io')
+    it('Should NOT add a new person if NAME MISSING', () => {
+      return chai.request(server)
+      .post('/api/v1/people')
+      .send({
+        // name: 'robbie',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5hbWUiOiJyb2JiaWUiLCJlbWFpbCI6InJvYmJpZUB0dXJpbmcuaW8ifSwiaWF0IjoxNTIyMzU4NzQxfQ.PQ9hRIuHopHZitAxhTnLI0D3TINUlwDoc3HjdDufcqM'
+      })
+      .then(response => {
+        response.should.have.status(422)
+        response.should.be.json
+        response.body.should.equal('Name Missing!')
+      })
+      .catch(error => {
+        throw error
+      })
+    })
+  })
 
-        response.body.should.have.property('token')
-        response.body.title.should.equal('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5hbWUiOiJyb2JiaWUiLCJlbWFpbCI6InJvYmJpZUB0dXJpbmcuaW8ifSwiaWF0IjoxNTIyMzU4NzQxfQ.PQ9hRIuHopHZitAxhTnLI0D3TINUlwDoc3HjdDufcqM')
+  describe('DELETE /api/v1/people/:id', () => {
+    it('Should delete a people by id', () => {
+      return chai.request(server)
+      .delete('/api/v1/people/1')
+      .send({
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5hbWUiOiJyb2JiaWUiLCJlbWFpbCI6InJvYmJpZUB0dXJpbmcuaW8ifSwiaWF0IjoxNTIyMzU4NzQxfQ.PQ9hRIuHopHZitAxhTnLI0D3TINUlwDoc3HjdDufcqM'
+      })
+      .then(response => {
+        response.should.have.status(202)
+        response.text.should.equal('Deleted')
+      })
+      .catch(error => {
+        throw error
+      })
+    })
+
+    it('Should NOT delete a people if id doesn\'t exist', () => {
+      return chai.request(server)
+      .delete('/api/v1/people/1asdasds324234234')
+      .send({
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5hbWUiOiJyb2JiaWUiLCJlbWFpbCI6InJvYmJpZUB0dXJpbmcuaW8ifSwiaWF0IjoxNTIyMzU4NzQxfQ.PQ9hRIuHopHZitAxhTnLI0D3TINUlwDoc3HjdDufcqM'
+      })
+      .then(response => {
+        response.should.have.status(500)
+      })
+      .catch(error => {
+        throw error
+      })
+    })
+  })
+
+  describe('DELETE /api/v1/strengths/:id', () => {
+    it('Should delete a strengths by id', () => {
+      return chai.request(server)
+      .delete('/api/v1/strengths/1')
+      .send({
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5hbWUiOiJyb2JiaWUiLCJlbWFpbCI6InJvYmJpZUB0dXJpbmcuaW8ifSwiaWF0IjoxNTIyMzU4NzQxfQ.PQ9hRIuHopHZitAxhTnLI0D3TINUlwDoc3HjdDufcqM'
+      })
+      .then(response => {
+        response.should.have.status(202)
+        response.text.should.equal('Deleted')
+      })
+      .catch(error => {
+        throw error
+      })
+    })
+
+    it('Should NOT delete a strengths if id doesn\'t exist', () => {
+      return chai.request(server)
+      .delete('/api/v1/strengths/thisaintright')
+      .send({
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5hbWUiOiJyb2JiaWUiLCJlbWFpbCI6InJvYmJpZUB0dXJpbmcuaW8ifSwiaWF0IjoxNTIyMzU4NzQxfQ.PQ9hRIuHopHZitAxhTnLI0D3TINUlwDoc3HjdDufcqM'
+      })
+      .then(response => {
+        response.should.have.status(500)
+      })
+      .catch(error => {
+        throw error
+      })
+    })
+  })
+
+  describe('PATCH /api/v1/people/:id', () => {
+    it('Should patch people by id', () => {
+      return chai.request(server)
+      .patch('/api/v1/people/1')
+      .send({
+        name: 'Gerald',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5hbWUiOiJyb2JiaWUiLCJlbWFpbCI6InJvYmJpZUB0dXJpbmcuaW8ifSwiaWF0IjoxNTIyMzU4NzQxfQ.PQ9hRIuHopHZitAxhTnLI0D3TINUlwDoc3HjdDufcqM'
+      })
+      .then(response => {
+        response.should.have.status(202)
+        response.text.should.equal('Edited')
+      })
+      .catch(error => {
+        throw error
+      })
+    })
+
+    it('Should NOT patch people with INVALID ID', () => {
+      return chai.request(server)
+      .patch('/api/v1/people/234')
+      .send({
+        name: 'robbie',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5hbWUiOiJyb2JiaWUiLCJlbWFpbCI6InJvYmJpZUB0dXJpbmcuaW8ifSwiaWF0IjoxNTIyMzU4NzQxfQ.PQ9hRIuHopHZitAxhTnLI0D3TINUlwDoc3HjdDufcqM'
+      })
+      .then(response => {
+        response.should.have.status(404)
+        response.text.should.equal('Failed to Edit')
+      })
+      .catch(error => {
+        throw error
+      })
+    })
+  })
+
+  describe('PATCH /api/v1/strengths/:id', () => {
+    it('Should patch strengths by id', () => {
+      return chai.request(server)
+      .patch('/api/v1/strengths/1')
+      .send({
+        strengthsTitle: 'Woo',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5hbWUiOiJyb2JiaWUiLCJlbWFpbCI6InJvYmJpZUB0dXJpbmcuaW8ifSwiaWF0IjoxNTIyMzU4NzQxfQ.PQ9hRIuHopHZitAxhTnLI0D3TINUlwDoc3HjdDufcqM'
+      })
+      .then(response => {
+        response.should.have.status(202)
+        response.text.should.equal('Edited')
+      })
+      .catch(error => {
+        throw error
+      })
+    })
+
+    it('Should NOT patch strengths with INVALID ID', () => {
+      return chai.request(server)
+      .patch('/api/v1/strengths/234')
+      .send({
+        strengthsTitle: 'Woo',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5hbWUiOiJyb2JiaWUiLCJlbWFpbCI6InJvYmJpZUB0dXJpbmcuaW8ifSwiaWF0IjoxNTIyMzU4NzQxfQ.PQ9hRIuHopHZitAxhTnLI0D3TINUlwDoc3HjdDufcqM'
+      })
+      .then(response => {
+        response.should.have.status(404)
+        response.text.should.equal('Failed to Edit')
       })
       .catch(error => {
         throw error
