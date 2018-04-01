@@ -172,6 +172,48 @@ describe('API Routes', () => {
     })
   })
 
+  describe('POST /api/v1/people/:people_id/strengths', () => {
+    it('Should add a new strength to person', () => {
+      return chai.request(server)
+      .post('/api/v1/people/1/strengths')
+      .send({
+        people_id: 1,
+        strength: 'Arranger',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5hbWUiOiJyb2JiaWUiLCJlbWFpbCI6InJvYmJpZUB0dXJpbmcuaW8ifSwiaWF0IjoxNTIyMzU4NzQxfQ.PQ9hRIuHopHZitAxhTnLI0D3TINUlwDoc3HjdDufcqM'
+      })
+      .then(response => {
+        response.should.have.status(201)
+        response.should.be.json
+        response.body.should.be.a('object')
+
+        response.body.should.have.property('id')
+        response.body.id.should.be.a('number')
+        response.body.id.should.equal(1)        
+      })
+      .catch(error => {
+        throw error
+      })
+    })
+
+    it('Should NOT add a new person with MISSING ID', () => {
+      return chai.request(server)
+      .post('/api/v1/people/1/strengths')
+      .send({
+        // people_id: 1,
+        strength: 'Arranger',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5hbWUiOiJyb2JiaWUiLCJlbWFpbCI6InJvYmJpZUB0dXJpbmcuaW8ifSwiaWF0IjoxNTIyMzU4NzQxfQ.PQ9hRIuHopHZitAxhTnLI0D3TINUlwDoc3HjdDufcqM'
+      })
+      .then(response => {
+        response.should.have.status(422)
+        response.should.be.json
+        response.body.should.equal('ID Missing!')        
+      })
+      .catch(error => {
+        throw error
+      })
+    })
+  })
+
   describe('DELETE /api/v1/people/:id', () => {
     it('Should delete a people by id', () => {
       return chai.request(server)
