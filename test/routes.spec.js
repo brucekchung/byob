@@ -177,7 +177,6 @@ describe('API Routes', () => {
       return chai.request(server)
       .post('/api/v1/people/1/strengths')
       .send({
-        people_id: 1,
         strength: 'Arranger',
         token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5hbWUiOiJyb2JiaWUiLCJlbWFpbCI6InJvYmJpZUB0dXJpbmcuaW8ifSwiaWF0IjoxNTIyMzU4NzQxfQ.PQ9hRIuHopHZitAxhTnLI0D3TINUlwDoc3HjdDufcqM'
       })
@@ -195,18 +194,17 @@ describe('API Routes', () => {
       })
     })
 
-    it('Should NOT add a new person with MISSING ID', () => {
+    it('Should NOT add a new person with missing strength', () => {
       return chai.request(server)
-      .post('/api/v1/people/1/strengths')
+      .post('/api/v1/people/1/strengths/')
       .send({
-        // people_id: 1,
-        strength: 'Arranger',
+        // strength: 'Futuristic',
         token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5hbWUiOiJyb2JiaWUiLCJlbWFpbCI6InJvYmJpZUB0dXJpbmcuaW8ifSwiaWF0IjoxNTIyMzU4NzQxfQ.PQ9hRIuHopHZitAxhTnLI0D3TINUlwDoc3HjdDufcqM'
       })
       .then(response => {
         response.should.have.status(422)
         response.should.be.json
-        response.body.should.equal('ID Missing!')        
+        response.body.should.equal('Strength ID Missing!')        
       })
       .catch(error => {
         throw error
