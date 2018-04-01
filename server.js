@@ -100,8 +100,15 @@ app.post('/api/v1/people/', checkAuth, (request, response) => {
   })
 })
 
-app.post('/api/v1/people/:people_id/strengths/', checkAuth, async (request, response) => {
-  const { people_id } = request.body
+app.post('/api/v1/people/:people_id/strengths', checkAuth, async (request, response) => {
+  const { people_id } = request.params
+
+  if (!request.body.strength) {
+    return response
+      .status(422)
+      .json('Strength ID Missing!')
+  }
+
   const strengths_id = await database('strengths').where('strengthsTitle', request.body.strength)
 
   database('people_strengths').insert({strengths_id: strengths_id[0].id, people_id}, 'id')
