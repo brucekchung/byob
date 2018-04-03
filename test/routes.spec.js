@@ -40,6 +40,20 @@ describe('API Routes', () => {
         throw error
       })
     })
+
+    it('GET route for strengths should have optional query param complement', () => {
+      return chai.request(server)
+      .get('/api/v1/strengths?complement=Woo')
+      .then(response => {
+        response.should.have.status(200)
+        response.should.be.json
+
+        response.body.length.should.equal(28)
+      })
+      .catch(error => {
+        throw error
+      })
+    })
     
   it('should have a GET route for strengths by id', () => {
     return chai.request(server)
@@ -165,6 +179,46 @@ describe('API Routes', () => {
         response.should.have.status(422)
         response.should.be.json
         response.body.should.equal('Name Missing!')
+      })
+      .catch(error => {
+        throw error
+      })
+    })
+  })
+
+  describe('POST /api/v1/people/:people_id/strengths', () => {
+    it('Should add a new strength to person', () => {
+      return chai.request(server)
+      .post('/api/v1/people/1/strengths')
+      .send({
+        strength: 'Arranger',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5hbWUiOiJyb2JiaWUiLCJlbWFpbCI6InJvYmJpZUB0dXJpbmcuaW8ifSwiaWF0IjoxNTIyMzU4NzQxfQ.PQ9hRIuHopHZitAxhTnLI0D3TINUlwDoc3HjdDufcqM'
+      })
+      .then(response => {
+        response.should.have.status(201)
+        response.should.be.json
+        response.body.should.be.a('object')
+
+        response.body.should.have.property('id')
+        response.body.id.should.be.a('number')
+        response.body.id.should.equal(1)        
+      })
+      .catch(error => {
+        throw error
+      })
+    })
+
+    it('Should NOT add a new person with missing strength', () => {
+      return chai.request(server)
+      .post('/api/v1/people/1/strengths/')
+      .send({
+        // strength: 'Futuristic',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5hbWUiOiJyb2JiaWUiLCJlbWFpbCI6InJvYmJpZUB0dXJpbmcuaW8ifSwiaWF0IjoxNTIyMzU4NzQxfQ.PQ9hRIuHopHZitAxhTnLI0D3TINUlwDoc3HjdDufcqM'
+      })
+      .then(response => {
+        response.should.have.status(422)
+        response.should.be.json
+        response.body.should.equal('Strength ID Missing!')        
       })
       .catch(error => {
         throw error

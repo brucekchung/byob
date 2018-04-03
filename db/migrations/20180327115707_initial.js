@@ -3,7 +3,8 @@ exports.up = function(knex, Promise) {
     knex.schema.createTable('strengths', function(table) {
       table.increments('id').primary()
       table.string('strengthsTitle')
-      table.string('description')     
+      table.string('description')
+      table.string('complement')           
 
       table.timestamps(true, true)
     }),

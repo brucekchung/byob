@@ -41,13 +41,26 @@ app.post('/authenticate', (req, res) => {
 })
 
 app.get('/api/v1/strengths', (request, response) => {
-  database('strengths').select()
-  .then((strengths) => {
-    response.status(200).json(strengths)
-  })
-  .catch(error => {
-    response.status(500).json({error})
-  })
+  const complement = request.query.complement
+
+  if(complement) {
+    database('strengths').where('complement', complement)
+    .select()
+    .then((strengths) => {
+      response.status(200).json(strengths)
+    })
+    .catch(error => {
+      response.status(500).json({error})
+    })
+  } else {
+    database('strengths').select()
+    .then((strengths) => {
+      response.status(200).json(strengths)
+    })
+    .catch(error => {
+      response.status(500).json({error})
+    })
+  }
 })
 
 app.get('/api/v1/strengths/:id', (request, response) => {
@@ -100,8 +113,15 @@ app.post('/api/v1/people/', checkAuth, (request, response) => {
   })
 })
 
-app.post('/api/v1/people/:people_id/strengths/', checkAuth, async (request, response) => {
-  const { people_id } = request.body
+app.post('/api/v1/people/:people_id/strengths', checkAuth, async (request, response) => {
+  const { people_id } = request.params
+
+  if (!request.body.strength) {
+    return response
+      .status(422)
+      .json('Strength ID Missing!')
+  }
+
   const strengths_id = await database('strengths').where('strengthsTitle', request.body.strength)
 
   database('people_strengths').insert({strengths_id: strengths_id[0].id, people_id}, 'id')
