@@ -10,6 +10,6 @@ notifications:
 deploy:
   provider: heroku
   api_key:
-    secure: //put in api key 
-  app: byob 
+    secure: BKjMUA06Jq/vsQXyNWpt32boCHN7THcPaftGmqtw66gnnPRKTRwoJDPldSVk56U9ZMdgf1RKMIrBw7ipFZZBn8dis9T2mMscqOZ3C2KTq/ZiZen3+ggwCxH/NQa3EJRyM7LaTmuBt/DHq2bNU8KbyKc3zLEQI3+1RutH0nBYCjkINNWEMH3uEtxgH314FfU7KTSFPihKHIt88W9r4PzHAc7ZPDtTuunwv0IFJHpo6i8cdDP+l6os+ej8+maJv2VQM3Gh8e4ZLQ3s7gGWbMM0dYdkp+/7Oi7MgF6lxlLvXOkCgnADvfuOIrW889qSmze+IjyBeP6hQstcByczJVaxq4HNi5cJ6DBhvpcLu0kOLg3XuL8LrQrV8biNIDLfBW73QFUjPk3jd+41iQknv36CIzdnpOTTi2wvPfkGkyBgRQAXMX69HtENvRsdhvZ+DWtjET+HS9OD4zT6loVLr6CNncN8vDZqfSpYIrEtOW5EN8UmjlJgDlE0ehxHvbyhW4ott5M7bPvJm8TucHiZcpZjz2n5rNX74RmpZv87DjEJOC+63pyYLF6m6CdzhWTI8Lc4+cnl4tzuOQb6LQewfr5YkvM9to08A/+6pYgaW5t0NUtRSqHRzJZKsysCR2wCRzRjx4M9CASU0rDdC7ActXaREd81klO7dN3VqRZFSJmFHV0=
+  app: byob
   skip_cleanup: true
